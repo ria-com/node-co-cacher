@@ -22,7 +22,7 @@ describe('myDB Tests', function () {
 
 
             start = new Date();
-            result = yield cacher(testFunction, [a],3);
+            result = yield cacher(testFunction, [a], {cacheTime : 3});
             expect(result).toEqual(a+1);
             expect((new Date()) - start).toBeLessThan(fakeDalay);
         }).then(done);

@@ -8,6 +8,6 @@ var testGenerator = function* testGenerator (a) {
 };
 
 co(function *(){
-    var result = yield cacher(testGenerator, [4]);
+    var result = yield cacher(testGenerator, [4], 180, '');
     console.log(result);
 }).catch(function(e) {throw e; });

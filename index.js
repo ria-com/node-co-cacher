@@ -11,12 +11,12 @@
             config.memcached.options
         );
 
-    var keyMaker = function(name, args) {
+    var keyMaker = function(name , salt, args) {
         var suffix = args.join('_');
         if (config.cache.key.crc32) {
             suffix = crc.crc32(suffix).toString(16);
         }
-        return config.cache.key.prefix + name + suffix;
+        return config.cache.key.prefix + name + salt + suffix;
     };
 
     /**
@@ -24,7 +24,7 @@
      *
      * @param {(function|generator)} myGenerator
      * @param {Array} args
-     * @param {number} cacheTime
+     * @param {number|object} options (if number options = cacheTime)
      * @return {*}
      *
      * @example
@@ -38,15 +38,23 @@
      * };
      *
      * co(function *(){
-     *     var result = yield cacher(testGenerator, [4]);
+     *     var result = yield cacher(testGenerator, [4], {cacheTime: 30});
      *     console.log(result);
      * }).catch(function(e) {throw e; });
      *
      */
-    module.exports = function* (myGenerator, args, cacheTime) {
-        var key = keyMaker(myGenerator.name, args);
+    module.exports = function* (myGenerator, args, options) {
+        if (typeof options == 'object') {
+        } else {
+            var cacheTime = options;
+            options = {};
+            options.cacheTime = cacheTime;
+        }
+        var time = options.cacheTime || config.cache.defaultTime;
+        var salt = options.salt || '';
+        var key = keyMaker(myGenerator.name, salt, args);
         var value = yield memcached.get(key);
-        var time = cacheTime || config.cache.defaultTime;
+
         if (value) {
             return value;
         }
