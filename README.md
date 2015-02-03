@@ -12,7 +12,7 @@ example
 ```javascript
 var co = require('co'),
     wait = require('co-wait'),
-    cache = require('co-cacher');
+    cacher = require('co-cacher');
 
 var testGenerator = function* testGenerator (a) {
     yield wait(1000);
@@ -20,8 +20,8 @@ var testGenerator = function* testGenerator (a) {
 };
 
 co(function *(){
-    var result = yield cache(testGenerator, [4]);
-    console.log(result);
+    var result = yield cacher(testGenerator, [4]);
+    console.log(result); // wait 1 sec and get '5'
 }).catch(function(e) {throw e; });
 ```
 
