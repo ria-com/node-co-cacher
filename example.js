@@ -8,6 +8,8 @@ var testGenerator = function* testGenerator (a) {
 };
 
 co(function *(){
-    var result = yield cacher(testGenerator, [4], 180, '');
-    console.log(result);
+    var result = yield cacher(testGenerator, [4], 180);
+    console.log(result); // wait 1 sec and get '5'
+    result = yield cacher(testGenerator, [4], 180);
+    console.log(result); // get '5' from cache
 }).catch(function(e) {throw e; });
