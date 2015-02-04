@@ -23,7 +23,7 @@ co(function *(){
     var result = yield cacher(testGenerator, [4]);
     console.log(result); // wait 1 sec and get '5'
     result = yield cacher(testGenerator, [4]);
-    console.log(result); // get '5' from cache
+    console.log(result); // get '5' from cache immediately
 }).catch(function(e) {throw e; });
 ```
 
