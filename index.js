@@ -1,28 +1,16 @@
 /**
- * @module cache-wrapper
+ * @module co-cacher
  */
 (function () {
     "use strict";
     var config = require('config'),
-        crc = require('crc'),
-        qMemcached = require('memcache-promise'),
-        memcached = new qMemcached(
-            config.memcached.servers,
-            config.memcached.options
-        );
-
-    var keyMaker = function(name , salt, args) {
-        var suffix = args.join('_');
-        if (config.cache.key.crc32) {
-            suffix = crc.crc32(suffix).toString(16);
-        }
-        return config.cache.key.prefix + name + salt + suffix;
-    };
+        utils = require("cacher-utils"),
+        cacheStorage = utils.getCacheStorage();
 
     /**
      * Cahe wrapper
      *
-     * @param {(function|generator)} myGenerator
+     * @param {(generator)} myGenerator
      * @param {Array} args
      * @param {number|object} options (if number options = cacheTime)
      * @return {*}
@@ -50,16 +38,17 @@
             options = {};
             options.cacheTime = cacheTime;
         }
-        var time = options.cacheTime || config.cache.defaultTime;
+        var time = options.cacheTime || config.cache.expires;
         var salt = options.salt || '';
-        var key = keyMaker(myGenerator.name, salt, args);
-        var value = yield memcached.get(key);
+        var key = utils.keyMaker(myGenerator.name, salt, args);
 
-        if (value) {
+        var value = yield cacheStorage.get(key);
+
+        if (typeof value != 'undefined') {
             return value;
         }
         var data = yield myGenerator.apply(null,args);
-        memcached.set(key,data,time).done();
+        cacheStorage.set(key,data,time).done();
         return data;
     }
 }());

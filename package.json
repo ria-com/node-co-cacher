@@ -11,13 +11,12 @@
   },
   "dependencies": {
     "config": "*",
-    "crc": "*",
     "co": "*",
-    "co-wait": "*",
-    "memcache-promise": "*"
+    "cacher-utils": "git://github.com/ria-com/node-cacher-utils.git#master"
   },
   "devDependencies": {
-    "jasmine-node": "*"
+    "jasmine-node": "*",
+    "co-wait": "*"
   },
   "scripts": {
     "start": "node --harmony index.js",
