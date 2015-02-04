@@ -10,7 +10,7 @@
     /**
      * Cahe wrapper
      *
-     * @param {(generator)} myGenerator
+     * @param {(function|generator)} myGenerator
      * @param {Array} args
      * @param {number|object} options (if number options = cacheTime)
      * @return {*}
