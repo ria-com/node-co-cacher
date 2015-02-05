@@ -6,8 +6,12 @@ module.exports = {
             poolSize: 20
         }
     },
+    redis: {
+        options: 'tcp://localhost:6379' // may be object see https://github.com/mjackson/then-redis
+    },
     cache: {
         expires: 120, // Default cache expires in seconds
+        storage: 'ee',
         key: {
             prefix: 'cw_',
             crc32: false

@@ -12,7 +12,7 @@
      *
      * @param {(function|generator)} myGenerator
      * @param {Array} args
-     * @param {number|object} options (if number options = cacheTime)
+     * @param {number|object} options (if number options = expires)
      * @return {*}
      *
      * @example
@@ -26,7 +26,7 @@
      * };
      *
      * co(function *(){
-     *     var result = yield cacher(testGenerator, [4], {cacheTime: 30});
+     *     var result = yield cacher(testGenerator, [4], {expires: 30});
      *     console.log(result);
      * }).catch(function(e) {throw e; });
      *
@@ -34,11 +34,11 @@
     module.exports = function* (myGenerator, args, options) {
         if (typeof options == 'object') {
         } else {
-            var cacheTime = options;
+            var expires = options;
             options = {};
-            options.cacheTime = cacheTime;
+            options.expires = expires;
         }
-        var time = options.cacheTime || config.cache.expires;
+        var time = options.expires || config.cache.expires;
         var salt = options.salt || '';
         var key = utils.keyMaker(myGenerator.name, salt, args);
 
