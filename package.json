@@ -1,6 +1,6 @@
 {
   "name": "co-cacher",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Caches the results of function|generator",
   "author": {
     "name": "Oleg Cherniy",
