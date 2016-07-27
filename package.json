@@ -12,7 +12,7 @@
   "dependencies": {
     "config": "*",
     "co": "*",
-    "cacher-utils": "git://github.com/ria-com/node-cacher-utils.git#master"
+    "cacher-utils": "*"
   },
   "devDependencies": {
     "jasmine-node": "*",
