@@ -48,7 +48,9 @@
             return value;
         }
         var data = yield myGenerator.apply(null,args);
-        cacheStorage.set(key,data,time).done();
+        cacheStorage.set(key,data,time).catch(function (error) {
+            console.warn('Cacher error -->', error.toString(), myGenerator.name, args, options);
+        });
         return data;
     }
 }());
